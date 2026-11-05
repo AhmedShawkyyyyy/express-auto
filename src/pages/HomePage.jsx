@@ -1,6 +1,7 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import {
   ArrowLeft,
+  Check,
   Clock3,
   Headset,
   MapPin,
@@ -41,16 +42,19 @@ const valueItems = [
     icon: ShieldCheck,
     title: 'ضمان على كل سيارة',
     text: 'تفاصيل الضمان ومدته مكتوبة قبل الحجز.',
+    proof: 'شروط واضحة قبل التوقيع',
   },
   {
     icon: ReceiptText,
     title: 'أسعار واضحة',
     text: 'السعر والمصاريف معلنة من أول زيارة، بدون مفاجآت.',
+    proof: 'بدون رسوم مخفية',
   },
   {
     icon: Headset,
     title: 'متابعة بعد التسليم',
     text: 'فريق خدمة العملاء معك بعد الاستلام في الصيانة والضمان والاستفسارات.',
+    proof: 'دعم مستمر بعد الاستلام',
   },
 ]
 
@@ -280,15 +284,27 @@ export default function HomePage({ navigate, onOpenCar, onBook }) {
         </div>
       </section>
 
-      <section aria-labelledby="why-us-title" className="section-space">
-        <div className="container-lux">
+      <section
+        aria-labelledby="why-us-title"
+        className="section-space relative overflow-hidden"
+      >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-32 left-1/2 h-64 w-[42rem] -translate-x-1/2 rounded-full bg-brand/[0.05] blur-[120px]"
+        />
+
+        <div className="container-lux relative">
           <Reveal>
-            <div className="grid gap-5 lg:grid-cols-12 lg:items-end">
-              <h2 id="why-us-title" className="home-h2 text-ivory lg:col-span-7">
-                لماذا إكسبريس أوتو؟
-              </h2>
-              <p className="home-card-meta max-w-md text-muted lg:col-span-5 lg:justify-self-end lg:pb-1">
-                وضوح من أول زيارة، ودعم يستمر بعد التسليم.
+            <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
+              <div className="lg:col-span-7">
+                <span className="eyebrow eyebrow-ar">وعد إكسبريس أوتو</span>
+                <h2 id="why-us-title" className="home-h2 mt-4 text-ivory">
+                  لماذا إكسبريس أوتو؟
+                </h2>
+              </div>
+              <p className="home-card-meta max-w-md text-muted lg:col-span-5 lg:pb-1">
+                وضوح من أول زيارة، ودعم يستمر بعد التسليم. هذه القاعدة التي
+                نتعامل بها مع كل عميل — بدون استثناء.
               </p>
             </div>
           </Reveal>
@@ -296,32 +312,86 @@ export default function HomePage({ navigate, onOpenCar, onBook }) {
           <motion.ul
             initial={reduceMotion ? false : 'hidden'}
             whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.15 }}
             variants={valueContainer}
-            className="mt-12 grid gap-10 md:grid-cols-3"
+            className="mt-12 grid overflow-hidden rounded-[var(--radius-card)] border border-line bg-surface md:grid-cols-3"
           >
-            {valueItems.map((item) => {
+            {valueItems.map((item, index) => {
               const Icon = item.icon
               return (
                 <motion.li
                   key={item.title}
                   variants={valueItem}
                   transition={{ duration: 0.55, ease: easeLux }}
+                  className="group relative flex flex-col border-b border-line p-6 last:border-b-0 sm:p-8 md:border-b-0 md:border-s md:p-9 md:first:border-s-0 lg:p-10"
                 >
-                  <Icon
-                    size={24}
-                    strokeWidth={1.7}
-                    className="text-muted"
+                  <span
                     aria-hidden="true"
+                    className="absolute inset-x-0 top-0 h-px origin-right scale-x-0 bg-gradient-to-l from-transparent via-brand/70 to-transparent transition-transform duration-500 ease-out group-hover:scale-x-100"
                   />
-                  <h3 className="home-card-title mt-4 font-bold text-ivory">
+                  <span
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(242,227,10,0.07),transparent_65%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                  />
+
+                  <div className="relative flex items-start justify-between">
+                    <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-brand transition-colors duration-300 group-hover:border-brand/35 group-hover:bg-brand/[0.08]">
+                      <Icon size={22} strokeWidth={1.6} aria-hidden="true" />
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className="font-latin text-[11px] font-semibold tracking-[0.22em] text-dim/70"
+                    >
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+
+                  <h3 className="relative mt-7 text-[20px] font-bold leading-8 text-ivory">
                     {item.title}
                   </h3>
-                  <p className="home-card-meta mt-2 text-muted">{item.text}</p>
+                  <p className="home-card-meta relative mt-2 max-w-[36ch] text-muted">
+                    {item.text}
+                  </p>
+
+                  <div className="relative mt-auto pt-8">
+                    <p className="home-caption flex items-center gap-2 border-t border-line pt-4 font-medium text-dim">
+                      <Check
+                        size={14}
+                        strokeWidth={2.4}
+                        className="shrink-0 text-brand"
+                        aria-hidden="true"
+                      />
+                      {item.proof}
+                    </p>
+                  </div>
                 </motion.li>
               )
             })}
           </motion.ul>
+
+          <Reveal delay={0.1}>
+            <div className="mt-6 flex flex-col gap-4 rounded-[var(--radius-card)] border border-line bg-surface-2/60 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+              <p className="home-card-meta text-muted">
+                <span className="font-semibold text-ivory">
+                  عندك سؤال قبل الحجز؟
+                </span>{' '}
+                فريقنا يجاوبك بدون أي التزام.
+              </p>
+              <a
+                href={whatsappLink(
+                  PRIMARY_PHONE,
+                  'مرحبًا إكسبريس أوتو، عندي استفسار قبل الحجز.',
+                )}
+                target="_blank"
+                rel="noreferrer"
+                className="home-card-meta inline-flex min-h-11 shrink-0 items-center gap-2 font-semibold text-brand transition-colors duration-200 hover:text-brand-soft"
+              >
+                <WhatsAppIcon size={16} />
+                اسأل مستشار الآن
+                <ArrowLeft size={15} aria-hidden="true" />
+              </a>
+            </div>
+          </Reveal>
         </div>
       </section>
 
