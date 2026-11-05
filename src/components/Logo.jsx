@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 export default function Logo({ onClick, className = 'h-10 sm:h-11' }) {
   const image = (
     <img
-      src="/logo.png"
+      src={`${import.meta.env.BASE_URL}logo.png`}
       alt="إكسبريس أوتو — شاهد الفرق"
       draggable="false"
       className={`w-auto shrink-0 object-contain mix-blend-screen ${className}`}

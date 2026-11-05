@@ -273,7 +273,7 @@ export default function HomePage({ navigate, onOpenCar, onBook }) {
                   aria-label={`عرض سيارات ${brand.name}`}
                 >
                   <img
-                    src={`/brands/${brand.slug}.svg`}
+                    src={`${import.meta.env.BASE_URL}brands/${brand.slug}.svg`}
                     alt={brand.name}
                     className="h-7 w-auto"
                   />
