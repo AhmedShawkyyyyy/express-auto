@@ -97,7 +97,8 @@ export default function Footer({ navigate, onBook }) {
               <p>{ADDRESS}</p>
             </div>
             <p className="mt-4 text-[13px] leading-6 text-dim">
-              ساعات العمل: يرجى الاتصال للتأكيد
+              ساعات العمل: <span className="font-latin">TODO</span> — تُضاف ساعات
+              العمل
             </p>
           </div>
 

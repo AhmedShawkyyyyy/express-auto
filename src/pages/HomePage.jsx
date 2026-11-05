@@ -1,7 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import {
   ArrowLeft,
-  Check,
   Clock3,
   Headset,
   MapPin,
@@ -42,19 +41,16 @@ const valueItems = [
     icon: ShieldCheck,
     title: 'ضمان على كل سيارة',
     text: 'تفاصيل الضمان ومدته مكتوبة قبل الحجز.',
-    proof: 'شروط واضحة قبل التوقيع',
   },
   {
     icon: ReceiptText,
     title: 'أسعار واضحة',
     text: 'السعر والمصاريف معلنة من أول زيارة، بدون مفاجآت.',
-    proof: 'بدون رسوم مخفية',
   },
   {
     icon: Headset,
     title: 'متابعة بعد التسليم',
     text: 'فريق خدمة العملاء معك بعد الاستلام في الصيانة والضمان والاستفسارات.',
-    proof: 'دعم مستمر بعد الاستلام',
   },
 ]
 
@@ -74,11 +70,11 @@ const heroContainer = {
 }
 
 const heroItem = {
-  hidden: { opacity: 0, y: 18 },
+  hidden: { opacity: 0, y: 12 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: easeLux },
+    transition: { duration: 0.3, ease: easeLux },
   },
 }
 
@@ -88,7 +84,7 @@ const valueContainer = {
 }
 
 const valueItem = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 12 },
   visible: { opacity: 1, y: 0 },
 }
 
@@ -96,7 +92,7 @@ function Reveal({
   children,
   className = '',
   delay = 0,
-  y = 18,
+  y = 12,
   amount = 0.2,
 }) {
   const reduceMotion = useReducedMotion()
@@ -107,7 +103,7 @@ function Reveal({
       initial={reduceMotion ? false : { opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount }}
-      transition={{ duration: 0.55, delay, ease: easeLux }}
+      transition={{ duration: 0.3, delay, ease: easeLux }}
     >
       {children}
     </motion.div>
@@ -124,13 +120,13 @@ function HomeCarCard({ car, onOpen, index = 0 }) {
     <motion.button
       type="button"
       onClick={() => onOpen(car)}
-      initial={reduceMotion ? false : { opacity: 0, y: 20 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       whileHover={reduceMotion ? undefined : { y: -2 }}
       whileTap={{ y: 0 }}
       viewport={{ once: true, amount: 0.15 }}
       transition={{
-        duration: 0.55,
+        duration: 0.3,
         delay: Math.min(index * 0.08, 0.24),
         ease: easeLux,
       }}
@@ -181,26 +177,23 @@ export default function HomePage({ navigate, onOpenCar, onBook }) {
   return (
     <>
       <section className="relative mt-[76px] min-h-[calc(100svh-76px)] overflow-hidden bg-night">
-        <div className="absolute inset-x-0 top-0 h-[36svh] md:inset-0 md:h-full">
-          <motion.img
+        <div className="absolute inset-x-0 top-0 h-[36svh] lg:inset-0 lg:h-full">
+          <img
             src={heroImage}
-            alt="سيارة بي واي دي Ti 7 على طريق صحراوي"
-            initial={reduceMotion ? false : { scale: 1.035 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 1.4, ease: easeLux }}
-            className="h-full w-full object-cover object-[34%_center] md:object-[55%_center]"
+            alt="سيارتا بي واي دي Ti 7 على طريق صحراوي"
+            className="h-full w-full object-cover object-[34%_center] lg:object-right"
           />
           <div
-            className="absolute inset-0 hidden md:block"
+            className="absolute inset-0 hidden lg:block"
             style={{
               background:
                 'linear-gradient(to left, rgba(0,0,0,.85), rgba(0,0,0,.35) 50%, transparent 80%)',
             }}
           />
-          <div className="absolute inset-0 md:hidden bg-[linear-gradient(to_top,#0B0B0C_2%,rgba(11,11,12,.8)_36%,rgba(11,11,12,.08)_78%)]" />
+          <div className="absolute inset-0 lg:hidden bg-[linear-gradient(to_top,#0B0B0C_2%,rgba(11,11,12,.8)_36%,rgba(11,11,12,.08)_78%)]" />
         </div>
 
-        <div className="container-lux relative flex min-h-[calc(100svh-76px)] flex-col justify-end pb-4 pt-[32svh] md:justify-center md:pb-20 md:pt-20">
+        <div className="container-lux relative flex min-h-[calc(100svh-76px)] flex-col justify-end pb-4 pt-[32svh] lg:justify-center lg:pb-20 lg:pt-20">
           <motion.div
             className="max-w-[660px]"
             variants={heroContainer}
@@ -284,27 +277,17 @@ export default function HomePage({ navigate, onOpenCar, onBook }) {
         </div>
       </section>
 
-      <section
-        aria-labelledby="why-us-title"
-        className="section-space relative overflow-hidden"
-      >
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-32 left-1/2 h-64 w-[42rem] -translate-x-1/2 rounded-full bg-brand/[0.05] blur-[120px]"
-        />
-
-        <div className="container-lux relative">
+      <section aria-labelledby="why-us-title" className="section-space">
+        <div className="container-lux">
           <Reveal>
             <div className="grid gap-6 lg:grid-cols-12 lg:items-end">
               <div className="lg:col-span-7">
-                <span className="eyebrow eyebrow-ar">وعد إكسبريس أوتو</span>
-                <h2 id="why-us-title" className="home-h2 mt-4 text-ivory">
+                <h2 id="why-us-title" className="home-h2 text-ivory">
                   لماذا إكسبريس أوتو؟
                 </h2>
               </div>
               <p className="home-card-meta max-w-md text-muted lg:col-span-5 lg:pb-1">
-                وضوح من أول زيارة، ودعم يستمر بعد التسليم. هذه القاعدة التي
-                نتعامل بها مع كل عميل — بدون استثناء.
+                وضوح من أول زيارة، ودعم يستمر بعد التسليم.
               </p>
             </div>
           </Reveal>
@@ -314,84 +297,32 @@ export default function HomePage({ navigate, onOpenCar, onBook }) {
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
             variants={valueContainer}
-            className="mt-12 grid overflow-hidden rounded-[var(--radius-card)] border border-line bg-surface md:grid-cols-3"
+            className="mt-12 grid gap-10 md:grid-cols-3"
           >
-            {valueItems.map((item, index) => {
+            {valueItems.map((item) => {
               const Icon = item.icon
               return (
                 <motion.li
                   key={item.title}
                   variants={valueItem}
-                  transition={{ duration: 0.55, ease: easeLux }}
-                  className="group relative flex flex-col border-b border-line p-6 last:border-b-0 sm:p-8 md:border-b-0 md:border-s md:p-9 md:first:border-s-0 lg:p-10"
+                  transition={{ duration: 0.3, ease: easeLux }}
                 >
-                  <span
+                  <Icon
+                    size={24}
+                    strokeWidth={1.6}
+                    className="text-muted"
                     aria-hidden="true"
-                    className="absolute inset-x-0 top-0 h-px origin-right scale-x-0 bg-gradient-to-l from-transparent via-brand/70 to-transparent transition-transform duration-500 ease-out group-hover:scale-x-100"
                   />
-                  <span
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(242,227,10,0.07),transparent_65%)] opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                  />
-
-                  <div className="relative flex items-start justify-between">
-                    <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-brand transition-colors duration-300 group-hover:border-brand/35 group-hover:bg-brand/[0.08]">
-                      <Icon size={22} strokeWidth={1.6} aria-hidden="true" />
-                    </span>
-                    <span
-                      aria-hidden="true"
-                      className="font-latin text-[11px] font-semibold tracking-[0.22em] text-dim/70"
-                    >
-                      {String(index + 1).padStart(2, '0')}
-                    </span>
-                  </div>
-
-                  <h3 className="relative mt-7 text-[20px] font-bold leading-8 text-ivory">
+                  <h3 className="mt-5 text-[20px] font-bold leading-8 text-ivory">
                     {item.title}
                   </h3>
-                  <p className="home-card-meta relative mt-2 max-w-[36ch] text-muted">
+                  <p className="home-card-meta mt-2 max-w-[36ch] text-muted">
                     {item.text}
                   </p>
-
-                  <div className="relative mt-auto pt-8">
-                    <p className="home-caption flex items-center gap-2 border-t border-line pt-4 font-medium text-dim">
-                      <Check
-                        size={14}
-                        strokeWidth={2.4}
-                        className="shrink-0 text-brand"
-                        aria-hidden="true"
-                      />
-                      {item.proof}
-                    </p>
-                  </div>
                 </motion.li>
               )
             })}
           </motion.ul>
-
-          <Reveal delay={0.1}>
-            <div className="mt-6 flex flex-col gap-4 rounded-[var(--radius-card)] border border-line bg-surface-2/60 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-              <p className="home-card-meta text-muted">
-                <span className="font-semibold text-ivory">
-                  عندك سؤال قبل الحجز؟
-                </span>{' '}
-                فريقنا يجاوبك بدون أي التزام.
-              </p>
-              <a
-                href={whatsappLink(
-                  PRIMARY_PHONE,
-                  'مرحبًا إكسبريس أوتو، عندي استفسار قبل الحجز.',
-                )}
-                target="_blank"
-                rel="noreferrer"
-                className="home-card-meta inline-flex min-h-11 shrink-0 items-center gap-2 font-semibold text-brand transition-colors duration-200 hover:text-brand-soft"
-              >
-                <WhatsAppIcon size={16} />
-                اسأل مستشار الآن
-                <ArrowLeft size={15} aria-hidden="true" />
-              </a>
-            </div>
-          </Reveal>
         </div>
       </section>
 
@@ -457,8 +388,8 @@ export default function HomePage({ navigate, onOpenCar, onBook }) {
                   />
                   <div>
                     <h3 className="home-caption font-medium text-dim">ساعات العمل</h3>
-                    <p className="home-card-meta mt-1 text-muted">
-                      يرجى الاتصال للتأكيد
+                    <p className="home-card-meta mt-1 text-dim">
+                      <span className="font-latin">TODO</span> — تُضاف ساعات العمل
                     </p>
                   </div>
                 </div>
