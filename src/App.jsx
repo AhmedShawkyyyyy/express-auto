@@ -41,6 +41,40 @@ export default function App() {
     return () => window.removeEventListener('hashchange', onHashChange)
   }, [])
 
+  // Mobile browsers restore the previous scroll position on reload before
+  // React has rendered the page, which can leave the page stuck below the top.
+  // Disable restoration on mobile only and pin the initial load to the top.
+  useEffect(() => {
+    if (!window.matchMedia('(max-width: 768px)').matches) return undefined
+
+    const canRestoreScroll = 'scrollRestoration' in window.history
+    const previousRestoration = canRestoreScroll
+      ? window.history.scrollRestoration
+      : null
+
+    if (canRestoreScroll) {
+      window.history.scrollRestoration = 'manual'
+    }
+
+    const resetScroll = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+      document.documentElement.scrollTop = 0
+      document.body.scrollTop = 0
+    }
+
+    resetScroll()
+    const frame = window.requestAnimationFrame(resetScroll)
+    const timer = window.setTimeout(resetScroll, 100)
+
+    return () => {
+      window.cancelAnimationFrame(frame)
+      window.clearTimeout(timer)
+      if (canRestoreScroll) {
+        window.history.scrollRestoration = previousRestoration
+      }
+    }
+  }, [])
+
   useEffect(() => {
     document.title = pageTitles[page] || pageTitles.home
   }, [page])

@@ -2,8 +2,8 @@ export const ADDRESS =
   'طريق مصر الإسماعيلية الصحراوي، بجوار الأكوابارك، أمام مدينة المستقبل'
 
 export const PHONE_NUMBERS = [
-  '01207194000',
   '01207294000',
+  '01207194000',
   '01207243000',
   '01207183000',
   '01207293000',
@@ -39,7 +39,7 @@ export const whatsappLink = (
 
 export const COORDS = { lat: 30.1730633, lng: 31.5350207 }
 
-export const MAPS_SHORT_LINK = 'https://maps.app.goo.gl/TxFecry4LGnWUP6c8'
+export const MAPS_SHORT_LINK = 'https://maps.app.goo.gl/9q9G4D42wfAxvqnm6'
 
 export const mapEmbedUrl = `https://www.google.com/maps?q=${COORDS.lat},${COORDS.lng}&z=16&output=embed&hl=ar`
 
