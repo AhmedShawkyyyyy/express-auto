@@ -26,6 +26,14 @@ const quickLinks = [
 ]
 
 export default function Footer({ navigate }) {
+  const selectBrand = (brand) => {
+    window.sessionStorage.setItem('express:brand', brand)
+    navigate('showroom')
+    window.dispatchEvent(
+      new CustomEvent('express:select-brand', { detail: brand }),
+    )
+  }
+
   return (
     <footer className="chrome-footer">
       <div className="container-lux">
@@ -74,16 +82,14 @@ export default function Footer({ navigate }) {
           >
             <h2 className="chrome-footer__heading">السيارات</h2>
             {footerBrands.map((brand) => (
-              <a
+              <button
                 key={brand}
-                href="#/showroom"
-                onClick={() =>
-                  window.sessionStorage.setItem('express:brand', brand)
-                }
+                type="button"
+                onClick={() => selectBrand(brand)}
                 className="chrome-footer__link"
               >
                 {brand}
-              </a>
+              </button>
             ))}
           </nav>
 

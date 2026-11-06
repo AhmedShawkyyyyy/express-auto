@@ -1,9 +1,14 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { Menu, PhoneCall, X } from 'lucide-react'
+import { MapPin, Menu, PhoneCall, X } from 'lucide-react'
 import Logo from './Logo'
 import MobileActionBar from './MobileActionBar'
-import { PRIMARY_PHONE, formatPhone, telLink } from '../data/contact'
+import {
+  MAPS_SHORT_LINK,
+  PRIMARY_PHONE,
+  formatPhone,
+  telLink,
+} from '../data/contact'
 import { useScrollLock } from '../lib/scrollLock'
 import '../styles/chrome.css'
 
@@ -16,6 +21,9 @@ const links = [
 export default function Navbar({ page, navigate }) {
   const [open, setOpen] = useState(false)
   const reduceMotion = useReducedMotion()
+  const drawerRef = useRef(null)
+  const closeRef = useRef(null)
+  const restoreFocusRef = useRef(null)
 
   useScrollLock(open)
 
@@ -26,12 +34,50 @@ export default function Navbar({ page, navigate }) {
   }, [])
 
   useEffect(() => {
-    if (!open) return
+    if (!open) return undefined
+
+    restoreFocusRef.current =
+      document.activeElement instanceof HTMLElement
+        ? document.activeElement
+        : null
+
+    const focusTimer = window.setTimeout(() => closeRef.current?.focus(), 60)
+
     const onKeyDown = (event) => {
-      if (event.key === 'Escape') setOpen(false)
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        setOpen(false)
+        return
+      }
+
+      if (event.key !== 'Tab') return
+
+      const nodes = drawerRef.current?.querySelectorAll(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      )
+      if (!nodes?.length) return
+
+      const first = nodes[0]
+      const last = nodes[nodes.length - 1]
+
+      if (!drawerRef.current?.contains(document.activeElement)) {
+        event.preventDefault()
+        first.focus()
+      } else if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
     }
-    window.addEventListener('keydown', onKeyDown)
-    return () => window.removeEventListener('keydown', onKeyDown)
+
+    document.addEventListener('keydown', onKeyDown)
+    return () => {
+      window.clearTimeout(focusTimer)
+      document.removeEventListener('keydown', onKeyDown)
+      restoreFocusRef.current?.focus?.()
+    }
   }, [open])
 
   useEffect(() => {
@@ -115,6 +161,7 @@ export default function Navbar({ page, navigate }) {
         {open && (
           <motion.aside
             key="chrome-drawer"
+            ref={drawerRef}
             id="chrome-mobile-drawer"
             role="dialog"
             aria-modal="true"
@@ -128,6 +175,7 @@ export default function Navbar({ page, navigate }) {
             <div className="chrome-drawer__head">
               <span className="chrome-drawer__title">القائمة</span>
               <button
+                ref={closeRef}
                 type="button"
                 onClick={() => setOpen(false)}
                 className="chrome-drawer__close"
@@ -153,6 +201,27 @@ export default function Navbar({ page, navigate }) {
                 )
               })}
             </nav>
+
+            <div className="chrome-drawer__foot">
+              <span className="chrome-drawer__foot-label">الخط المباشر</span>
+              <a
+                href={telLink(PRIMARY_PHONE)}
+                dir="ltr"
+                className="chrome-drawer__phone font-latin"
+                aria-label={`اتصل على ${formatPhone(PRIMARY_PHONE)}`}
+              >
+                {formatPhone(PRIMARY_PHONE)}
+              </a>
+              <a
+                href={MAPS_SHORT_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="chrome-drawer__map"
+              >
+                <MapPin size={15} aria-hidden="true" />
+                افتح الموقع في خرائط جوجل
+              </a>
+            </div>
           </motion.aside>
         )}
       </AnimatePresence>

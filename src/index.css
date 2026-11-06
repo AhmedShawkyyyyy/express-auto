@@ -120,6 +120,35 @@ select:focus-visible {
   outline-offset: 2px;
 }
 
+.skip-link {
+  position: fixed;
+  inset-inline-start: 12px;
+  top: 12px;
+  z-index: 70;
+  min-height: 44px;
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--brand);
+  color: #0b0b0c;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.4;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-140%);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.skip-link:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+  outline: 2px solid #0b0b0c;
+  outline-offset: 2px;
+}
+
 img {
   max-width: 100%;
   -webkit-user-drag: none;

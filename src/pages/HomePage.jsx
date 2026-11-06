@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import {
   ArrowLeft,
+  ArrowUpLeft,
   Clock3,
   Headset,
   MapPin,
@@ -145,12 +146,14 @@ function HomeCarCard({ car, onOpen }) {
       aria-label={`عرض تفاصيل ${car.name}`}
     >
       <div className="aspect-[4/3] overflow-hidden bg-surface-2">
-        <FadeImage
-          src={car.image}
-          alt={car.name}
-          loading="lazy"
-          className="h-full w-full object-cover"
-        />
+        <div className="h-full w-full transition-transform duration-700 group-hover:scale-[1.03]">
+          <FadeImage
+            src={car.image}
+            alt={car.name}
+            loading="lazy"
+            className="h-full w-full object-cover"
+          />
+        </div>
       </div>
 
       <div className="p-5">
@@ -169,13 +172,19 @@ function HomeCarCard({ car, onOpen }) {
           <span className="cars-year">موديل {car.year}</span>
         </p>
 
-        <div className="mt-4 border-t border-line pt-4">
-          <span className="cars-from block">يبدأ من</span>
-          <span className="cars-price mt-1 block">
-            <span dir="ltr" className="bidi-isolate font-latin">
-              {car.price}
-            </span>{" "}
-            <span className="cars-currency">ج.م</span>
+        <div className="mt-4 flex items-end justify-between gap-3 border-t border-line pt-4">
+          <div>
+            <span className="cars-from block">يبدأ من</span>
+            <span className="cars-price mt-1 block">
+              <span dir="ltr" className="bidi-isolate font-latin">
+                {car.price}
+              </span>{" "}
+              <span className="cars-currency">ج.م</span>
+            </span>
+          </div>
+          <span className="mb-1 hidden items-center gap-1.5 text-sm font-semibold text-muted transition-colors group-hover:text-ivory min-[360px]:flex">
+            عرض التفاصيل
+            <ArrowUpLeft size={14} aria-hidden="true" />
           </span>
         </div>
       </div>
@@ -333,13 +342,18 @@ export default function HomePage({ navigate, onOpenCar }) {
           </SectionReveal>
         </section>
 
-        <section>
+        <section aria-labelledby="featured-cars-title">
           <SectionReveal className="container-lux home-section">
             <motion.div
               className="flex flex-wrap items-center justify-between gap-4"
               variants={sectionItem}
             >
-              <h2 className="home-section-title text-ivory">سيارات مختارة</h2>
+              <h2
+                id="featured-cars-title"
+                className="home-section-title text-ivory"
+              >
+                سيارات مختارة
+              </h2>
               <button
                 type="button"
                 onClick={() => navigate("showroom")}
@@ -361,10 +375,10 @@ export default function HomePage({ navigate, onOpenCar }) {
           </SectionReveal>
         </section>
 
-        <section>
+        <section aria-labelledby="location-title">
           <SectionReveal className="container-lux home-section">
             <motion.div variants={sectionItem}>
-              <h2 className="home-section-title text-ivory">
+              <h2 id="location-title" className="home-section-title text-ivory">
                 المعرض على طريق مصر – الإسماعيلية
               </h2>
             </motion.div>

@@ -95,12 +95,18 @@ function ContactPhoneCard({ phone, index, reduceMotion }) {
         <span className="flex h-10 w-10 items-center justify-center rounded-full bg-surface-2 text-ivory transition-colors duration-200 group-hover:bg-brand group-hover:text-[#0b0b0c]">
           <PhoneCall size={16} aria-hidden="true" />
         </span>
-        <span className="text-sm text-dim">مستشار مبيعات</span>
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-dim">مستشار مبيعات</span>
+          <span className="font-latin text-[11px] font-semibold tracking-widest text-dim/70">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+        </div>
       </div>
 
       <a
         href={telLink(phone)}
-        className="phone-number mt-4 block w-fit font-latin text-xl font-bold tracking-wide text-ivory transition-colors hover:text-muted"
+        dir="ltr"
+        className="phone-number mt-4 block w-fit font-latin text-[1.35rem] font-bold tracking-wide text-ivory transition-colors hover:text-muted"
       >
         {formatPhone(phone)}
       </a>
@@ -108,6 +114,7 @@ function ContactPhoneCard({ phone, index, reduceMotion }) {
       <div className="mt-4 grid grid-cols-2 gap-2">
         <a
           href={telLink(phone)}
+          aria-label={`اتصل على ${formatPhone(phone)}`}
           className="btn btn-secondary min-h-11 !px-3 text-sm"
         >
           <PhoneCall size={14} aria-hidden="true" />
@@ -117,6 +124,7 @@ function ContactPhoneCard({ phone, index, reduceMotion }) {
           href={whatsappLink(phone, advisorMessage)}
           target="_blank"
           rel="noreferrer"
+          aria-label={`راسل ${formatPhone(phone)} على واتساب`}
           className="btn btn-secondary min-h-11 !px-3 text-sm"
         >
           <MessageCircle size={14} aria-hidden="true" />

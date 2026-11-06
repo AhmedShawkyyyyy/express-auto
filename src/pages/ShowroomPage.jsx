@@ -84,6 +84,22 @@ export default function ShowroomPage({ onOpenCar, navigate }) {
 
   useEffect(() => {
     window.sessionStorage.removeItem('express:brand')
+
+    const onSelectBrand = (event) => {
+      if (!brands.includes(event.detail)) return
+      setActiveBrand(event.detail)
+      setActiveCategory('الكل')
+      window.sessionStorage.removeItem('express:brand')
+      window.setTimeout(() => {
+        document
+          .getElementById('showroom-list')
+          ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 0)
+    }
+
+    window.addEventListener('express:select-brand', onSelectBrand)
+    return () =>
+      window.removeEventListener('express:select-brand', onSelectBrand)
   }, [])
 
   const filteredCars = useMemo(
@@ -97,6 +113,8 @@ export default function ShowroomPage({ onOpenCar, navigate }) {
   )
 
   const hasFilters = activeBrand !== 'الكل' || activeCategory !== 'الكل'
+  const activeBrandHasCars =
+    activeBrand === 'الكل' || cars.some((car) => car.brand === activeBrand)
 
   const resetFilters = () => {
     setActiveBrand('الكل')
@@ -159,7 +177,10 @@ export default function ShowroomPage({ onOpenCar, navigate }) {
                   استخدم الفلاتر للوصول إلى العلامة أو الفئة المناسبة.
                 </p>
               </div>
-              <span className="rounded-full border border-line bg-surface-2 px-4 py-2 text-sm font-semibold text-ivory">
+              <span
+                aria-live="polite"
+                className="rounded-full border border-line bg-surface-2 px-4 py-2 text-sm font-semibold text-ivory"
+              >
                 <span className="font-latin">
                   {String(filteredCars.length).padStart(2, '0')}
                 </span>{' '}
@@ -229,18 +250,33 @@ export default function ShowroomPage({ onOpenCar, navigate }) {
               <div className="mt-8 flex flex-col items-center rounded-[16px] border border-line bg-surface px-6 py-16 text-center">
                 <SearchX size={30} className="text-dim" aria-hidden="true" />
                 <h3 className="mt-4 text-xl font-bold text-ivory">
-                  لا توجد سيارات مطابقة
+                  {activeBrandHasCars
+                    ? 'لا توجد سيارات مطابقة'
+                    : `لا توجد سيارات ${activeBrand} حاليًا`}
                 </h3>
                 <p className="mt-2 max-w-md text-base leading-7 text-muted">
-                  جرّب تغيير العلامة أو الفئة لعرض خيارات أخرى.
+                  {activeBrandHasCars
+                    ? 'جرّب تغيير العلامة أو الفئة لعرض خيارات أخرى.'
+                    : 'يمكنك تصفح العلامات المتاحة، أو التواصل معنا لمعرفة المتاح من هذه العلامة.'}
                 </p>
-                <button
-                  type="button"
-                  onClick={resetFilters}
-                  className="btn btn-secondary mt-6"
-                >
-                  مسح الفلاتر
-                </button>
+                <div className="mt-6 flex flex-col items-center gap-3 sm:flex-row">
+                  <button
+                    type="button"
+                    onClick={resetFilters}
+                    className="btn btn-secondary"
+                  >
+                    عرض كل السيارات
+                  </button>
+                  {!activeBrandHasCars && (
+                    <button
+                      type="button"
+                      onClick={() => navigate('contact')}
+                      className="btn btn-primary"
+                    >
+                      تواصل معنا
+                    </button>
+                  )}
+                </div>
               </div>
             ) : (
               <motion.div

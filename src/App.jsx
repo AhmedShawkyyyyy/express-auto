@@ -68,11 +68,26 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-black">
+      <button
+        type="button"
+        onClick={() => {
+          const main = document.getElementById('main-content')
+          main?.focus()
+          main?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }}
+        className="skip-link"
+      >
+        تخطي إلى المحتوى
+      </button>
+
       <Navbar page={page} navigate={navigate} />
 
       <AnimatePresence mode="wait" initial={false}>
         <motion.main
           key={page}
+          id="main-content"
+          tabIndex={-1}
+          className="outline-none"
           initial={reduceMotion ? false : { opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           exit={reduceMotion ? { opacity: 1 } : { opacity: 0, y: -6 }}
