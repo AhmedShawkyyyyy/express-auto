@@ -152,6 +152,11 @@ function HomeCarCard({ car, onOpen }) {
             alt={car.name}
             loading="lazy"
             className="h-full w-full object-cover"
+            style={
+              car.imagePosition
+                ? { objectPosition: car.imagePosition }
+                : undefined
+            }
           />
         </div>
       </div>

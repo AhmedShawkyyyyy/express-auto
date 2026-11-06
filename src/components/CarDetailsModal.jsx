@@ -156,6 +156,11 @@ export default function CarDetailsModal({ car, onClose }) {
                       ease: [0.22, 1, 0.36, 1],
                     }}
                     className="absolute inset-0 h-full w-full object-cover"
+                    style={
+                      activeImage === 0 && car.imagePosition
+                        ? { objectPosition: car.imagePosition }
+                        : undefined
+                    }
                   />
                 </AnimatePresence>
                 <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/10" />
@@ -246,6 +251,11 @@ export default function CarDetailsModal({ car, onClose }) {
                       alt=""
                       loading="lazy"
                       className="h-full w-full object-cover"
+                      style={
+                        index === 0 && car.imagePosition
+                          ? { objectPosition: car.imagePosition }
+                          : undefined
+                      }
                     />
                   </button>
                 ))}

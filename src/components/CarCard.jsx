@@ -35,6 +35,11 @@ export default function CarCard({ car, onOpen, index = 0 }) {
             alt={car.name}
             loading="lazy"
             className="h-full w-full object-cover"
+            style={
+              car.imagePosition
+                ? { objectPosition: car.imagePosition }
+                : undefined
+            }
           />
         </div>
 

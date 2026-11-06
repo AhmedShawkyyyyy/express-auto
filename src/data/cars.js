@@ -1,8 +1,10 @@
 import heroBanner from '../assets/hero-banner.jpg'
 import bydHero from '../assets/byd-ti7-hero.jpg'
+import bydDealer from '../assets/byd-ti7-dealer.jpg'
 import bydSide from '../assets/byd-ti7-side.jpg'
 import bydInterior from '../assets/byd-ti7-interior.jpg'
 import bydRoad from '../assets/byd-ti7-road.jpg'
+import peugeotDealer from '../assets/peugeot-3008-dealer.jpg'
 
 const image = (id) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1800&q=86`
@@ -17,13 +19,13 @@ export const cars = [
     shortName: 'Ti 7',
     year: 2025,
     category: 'كروس أوفر',
-    price: '2,190,000',
+    price: '2,425,000',
     badge: 'البطل الجديد',
     featured: true,
     description:
       'سيارة رياضية متعددة الاستخدامات، هجينة فائقة، تجمع حضور الطرق الوعرة مع رفاهية المدينة. بي واي دي Ti 7 تمنحك قوة 480 حصانًا، مدى يصل إلى 735 كم، ومقصورة عائلية بتقنيات ذكية.',
-    image: bydSide,
-    gallery: [bydSide, bydInterior, bydRoad, bydHero],
+    image: bydDealer,
+    gallery: [bydDealer, bydSide, bydInterior, bydRoad],
     specs: {
       engine: 'هايبرد فائق 1.5 لتر',
       power: '480 حصانًا',
@@ -185,14 +187,15 @@ export const cars = [
     shortName: '3008 GT',
     year: 2025,
     category: 'كروس أوفر',
-    price: '2,050,000',
+    price: '2,400,000',
     badge: 'لمسة أوروبية',
     featured: true,
     description:
       'تصميم كوبيه جريء ومقصورة تشعرك أنك في سيارة مستقبلية. بيجو 3008 GT تقدم حضورًا أوروبيًا راقيًا بلمسة رياضية لا تُنسى.',
-    image: image('photo-1787063860678-3890a75caf18'),
+    image: peugeotDealer,
+    imagePosition: 'center 90%',
     gallery: [
-      image('photo-1787063860678-3890a75caf18'),
+      peugeotDealer,
       image('photo-1771783203301-e475b0be1abf'),
     ],
     specs: {
