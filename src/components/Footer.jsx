@@ -1,28 +1,25 @@
-import { MapPin } from 'lucide-react'
+import { ArrowUp, Navigation } from 'lucide-react'
 import Logo from './Logo'
-import {
-  FacebookIcon,
-  InstagramIcon,
-  WhatsAppIcon,
-} from './icons/BrandIcons'
+import { FacebookIcon, InstagramIcon } from './icons/BrandIcons'
 import { brands } from '../data/cars'
 import {
   ADDRESS,
-  PHONE_NUMBERS,
+  MAPS_SHORT_LINK,
+  PRIMARY_PHONE,
+  formatPhone,
   telLink,
-  whatsappLink,
 } from '../data/contact'
 import { siteConfig } from '../data/siteConfig'
+import '../styles/chrome.css'
 
 const currentYear = new Date().getFullYear()
-const brandCount = brands.filter((brand) => brand !== 'الكل').length
+const footerBrands = brands.filter((brand) => brand !== 'الكل')
+const brandCount = footerBrands.length
 const hasSocialLinks = Boolean(
-  siteConfig.social.instagram ||
-    siteConfig.social.facebook ||
-    siteConfig.whatsappNumber,
+  siteConfig.social.instagram || siteConfig.social.facebook,
 )
 
-const navLinks = [
+const quickLinks = [
   { id: 'home', label: 'الرئيسية' },
   { id: 'showroom', label: 'معرض السيارات' },
   { id: 'contact', label: 'تواصل معنا' },
@@ -30,28 +27,28 @@ const navLinks = [
 
 export default function Footer({ navigate }) {
   return (
-    <footer className="border-t border-line bg-night">
-      <div className="container-lux pb-8 pt-16">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-4">
+    <footer className="chrome-footer">
+      <div className="container-lux">
+        <div className="chrome-footer__grid">
+          <div className="chrome-footer__brand">
             <Logo
               onClick={() => navigate('home')}
               className="h-10"
               loading="lazy"
             />
-            <p className="site-footer-text mt-5 max-w-xs">
+            <p className="chrome-footer__brand-desc">
               سيارات جديدة من {brandCount} علامات عالمية.
             </p>
 
             {hasSocialLinks && (
-              <div className="mt-5 flex items-center gap-2">
+              <div className="chrome-footer__social">
                 {siteConfig.social.instagram && (
                   <a
                     href={siteConfig.social.instagram}
                     target="_blank"
-                    rel="noreferrer"
-                    aria-label="إنستغرام إكسبريس أوتو"
-                    className="flex h-11 w-11 items-center justify-center rounded-[12px] border border-line text-muted transition-colors duration-200 hover:border-white/20 hover:text-ivory"
+                    rel="noopener noreferrer"
+                    aria-label="إنستجرام"
+                    className="chrome-footer__social-link"
                   >
                     <InstagramIcon size={18} />
                   </a>
@@ -60,86 +57,109 @@ export default function Footer({ navigate }) {
                   <a
                     href={siteConfig.social.facebook}
                     target="_blank"
-                    rel="noreferrer"
-                    aria-label="فيسبوك إكسبريس أوتو"
-                    className="flex h-11 w-11 items-center justify-center rounded-[12px] border border-line text-muted transition-colors duration-200 hover:border-white/20 hover:text-ivory"
+                    rel="noopener noreferrer"
+                    aria-label="فيسبوك"
+                    className="chrome-footer__social-link"
                   >
                     <FacebookIcon size={18} />
-                  </a>
-                )}
-                {siteConfig.whatsappNumber && (
-                  <a
-                    href={whatsappLink(siteConfig.whatsappNumber)}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label="تواصل مع إكسبريس أوتو عبر واتساب"
-                    className="flex h-11 w-11 items-center justify-center rounded-[12px] border border-line text-muted transition-colors duration-200 hover:border-white/20 hover:text-ivory"
-                  >
-                    <WhatsAppIcon size={18} />
                   </a>
                 )}
               </div>
             )}
           </div>
 
-          <nav className="lg:col-span-2" aria-label="روابط سريعة">
-            <h2 className="site-footer-heading">روابط سريعة</h2>
-            <div className="mt-6 flex flex-col items-start gap-1">
-              {navLinks.map((link) => (
-                <button
-                  key={link.id}
-                  type="button"
-                  onClick={() => navigate(link.id)}
-                  className="site-footer-link min-h-11"
-                >
-                  {link.label}
-                </button>
-              ))}
-            </div>
+          <nav
+            className="chrome-footer__col chrome-footer__cars"
+            aria-label="السيارات"
+          >
+            <h2 className="chrome-footer__heading">السيارات</h2>
+            {footerBrands.map((brand) => (
+              <a
+                key={brand}
+                href="#/showroom"
+                onClick={() =>
+                  window.sessionStorage.setItem('express:brand', brand)
+                }
+                className="chrome-footer__link"
+              >
+                {brand}
+              </a>
+            ))}
           </nav>
 
-          <div className="lg:col-span-3">
-            <h2 className="site-footer-heading">العنوان</h2>
-            <div className="site-footer-text mt-6 flex items-start gap-3">
-              <MapPin
-                size={18}
-                strokeWidth={1.7}
-                className="mt-1 shrink-0"
-                aria-hidden="true"
-              />
-              <p>{ADDRESS}</p>
-            </div>
+          <nav
+            className="chrome-footer__col chrome-footer__links"
+            aria-label="روابط سريعة"
+          >
+            <h2 className="chrome-footer__heading">روابط سريعة</h2>
+            {quickLinks.map((link) => (
+              <button
+                key={link.id}
+                type="button"
+                onClick={() => navigate(link.id)}
+                className="chrome-footer__link"
+              >
+                {link.label}
+              </button>
+            ))}
+          </nav>
+
+          <div className="chrome-footer__col chrome-footer__contact">
+            <h2 className="chrome-footer__heading">تواصل</h2>
+            <p className="chrome-footer__address">{ADDRESS}</p>
+            <a
+              href={MAPS_SHORT_LINK}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="chrome-footer__maps"
+            >
+              <Navigation size={15} aria-hidden="true" />
+              افتح في خرائط جوجل
+            </a>
             {siteConfig.workingHours && (
-              <p className="site-footer-text mt-4">
+              <p className="chrome-footer__hours">
                 ساعات العمل: {siteConfig.workingHours}
               </p>
             )}
-          </div>
-
-          <div className="lg:col-span-3">
-            <h2 className="site-footer-heading">الهاتف</h2>
-            <div
+            <a
+              href={telLink(PRIMARY_PHONE)}
               dir="ltr"
-              className="mt-6 grid grid-cols-2 gap-x-2 gap-y-1 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3"
+              className="chrome-footer__phone"
             >
-              {PHONE_NUMBERS.map((phone) => (
-                <a
-                  key={phone}
-                  href={telLink(phone)}
-                  aria-label={`اتصل على ${phone}`}
-                  className="phone-number site-footer-link flex min-h-11 items-center justify-center whitespace-nowrap tracking-tight"
-                >
-                  {phone}
-                </a>
-              ))}
-            </div>
+              {formatPhone(PRIMARY_PHONE)}
+            </a>
+            {siteConfig.secondaryPhone && (
+              <a
+                href={telLink(siteConfig.secondaryPhone)}
+                dir="ltr"
+                className="chrome-footer__phone-secondary"
+              >
+                {formatPhone(siteConfig.secondaryPhone)}
+              </a>
+            )}
+            <button
+              type="button"
+              onClick={() => navigate('contact')}
+              className="chrome-footer__link chrome-footer__all-numbers"
+            >
+              جميع أرقام المستشارين
+            </button>
           </div>
         </div>
 
-        <div className="mt-12 border-t border-line pt-6">
-          <p className="site-footer-copy">
+        <div className="chrome-footer__bottom">
+          <p className="chrome-footer__copy">
             © {currentYear} إكسبريس أوتو. جميع الحقوق محفوظة.
           </p>
+          <button
+            type="button"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            aria-label="العودة إلى أعلى الصفحة"
+            className="chrome-footer__top"
+          >
+            إلى الأعلى
+            <ArrowUp size={14} aria-hidden="true" />
+          </button>
         </div>
       </div>
     </footer>

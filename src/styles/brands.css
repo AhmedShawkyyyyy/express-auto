@@ -1,0 +1,78 @@
+/* Home brand strip — dark, monochrome logo treatment. */
+.brand-strip-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.brand-logo-img {
+  display: block;
+  width: auto;
+  height: 28px;
+  max-width: 110px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.7;
+  transition: opacity 200ms ease;
+}
+
+/* BYD is a wide wordmark; optically size it down to match the square marks. */
+.brand-logo-img--byd {
+  height: 16px;
+  max-width: 64px;
+}
+
+.brand-strip-item:hover .brand-logo-img,
+.brand-strip-item:focus-visible .brand-logo-img {
+  opacity: 1;
+}
+
+.brand-logo-fallback {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  color: var(--text-secondary);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  white-space: nowrap;
+  opacity: 0.7;
+  transition: opacity 200ms ease, color 200ms ease;
+}
+
+.brand-strip-item:hover .brand-logo-fallback,
+.brand-strip-item:focus-visible .brand-logo-fallback {
+  color: var(--text-primary);
+  opacity: 1;
+}
+
+@media (max-width: 767px) {
+  .brand-strip-row {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .brand-strip-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .brand-strip-item {
+    flex: 0 0 auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .brand-strip-row {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 1024px) {
+  .brand-strip-row {
+    justify-content: space-between;
+  }
+}

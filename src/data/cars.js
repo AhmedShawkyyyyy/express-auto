@@ -189,7 +189,7 @@ export const cars = [
     badge: 'لمسة أوروبية',
     featured: true,
     description:
-      'تصميم كوبيه جريء ومقصورة تشعرك أنك في سيارة مستقبلية. بيجو 3008 GT تقدم تجربة أوروبية راقية بلمسة رياضية لا تُنسى.',
+      'تصميم كوبيه جريء ومقصورة تشعرك أنك في سيارة مستقبلية. بيجو 3008 GT تقدم حضورًا أوروبيًا راقيًا بلمسة رياضية لا تُنسى.',
     image: image('photo-1787063860678-3890a75caf18'),
     gallery: [
       image('photo-1787063860678-3890a75caf18'),
@@ -316,6 +316,9 @@ export const cars = [
   },
 ]
 
-export const brands = ['الكل', ...new Set(cars.map((car) => car.brand))]
+export const brands = [
+  'الكل',
+  ...new Set([...cars.map((car) => car.brand), 'كيا', 'هوندا', 'فيات']),
+]
 export const categories = ['الكل', ...new Set(cars.map((car) => car.category))]
 export const featuredCars = cars.filter((car) => car.featured)

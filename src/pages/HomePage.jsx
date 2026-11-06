@@ -10,14 +10,16 @@ import {
   ReceiptText,
   ShieldCheck,
 } from "lucide-react";
+import BrandLogo from "../components/BrandLogo";
 import FadeImage from "../components/FadeImage";
 import { WhatsAppIcon } from "../components/icons/BrandIcons";
 import { brands, featuredCars, heroImage } from "../data/cars";
 import {
   ADDRESS,
+  MAPS_SHORT_LINK,
   PRIMARY_PHONE,
   formatPhone,
-  mapsLink,
+  mapEmbedUrl,
   telLink,
   whatsappLink,
 } from "../data/contact";
@@ -52,8 +54,6 @@ const heroTrustItems = [
   "استشارة شخصية",
 ];
 
-const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(ADDRESS)}&z=15&output=embed&hl=ar`;
-
 const heroContainer = {
   hidden: {},
   show: {
@@ -72,12 +72,12 @@ const heroItem = {
 
 const sectionContainer = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.16, delayChildren: 0.08 } },
+  visible: { transition: { staggerChildren: 0.22, delayChildren: 0.12 } },
 };
 
 const staggerContainer = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.13, delayChildren: 0.04 } },
+  visible: { transition: { staggerChildren: 0.18, delayChildren: 0.08 } },
 };
 
 const sectionItem = {
@@ -85,13 +85,13 @@ const sectionItem = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.85, ease: easeSoft },
+    transition: { duration: 1.05, ease: easeSoft },
   },
 };
 
 const brandContainer = {
   hidden: {},
-  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.05 } },
+  visible: { transition: { staggerChildren: 0.15, delayChildren: 0.1 } },
 };
 
 const brandItem = {
@@ -99,7 +99,7 @@ const brandItem = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, ease: easeSoft },
+    transition: { duration: 0.9, ease: easeSoft },
   },
 };
 
@@ -110,7 +110,7 @@ function SectionReveal({
   variants = sectionContainer,
 }) {
   const ref = useRef(null);
-  const inView = useInView(ref, { once: true, amount });
+  const inView = useInView(ref, { once: false, amount });
   const reduceMotion = useReducedMotion();
 
   return (
@@ -273,7 +273,7 @@ export default function HomePage({ navigate, onOpenCar }) {
           <SectionReveal
             amount={0.4}
             variants={brandContainer}
-            className="flex flex-wrap items-center justify-center gap-x-10 gap-y-1 sm:justify-between"
+            className="brand-strip-row"
           >
             {homeBrands.map((brand) => (
               <motion.a
@@ -282,11 +282,11 @@ export default function HomePage({ navigate, onOpenCar }) {
                 onClick={() =>
                   window.sessionStorage.setItem("express:brand", brand)
                 }
-                className="brand-strip-link flex min-h-11 items-center"
+                className="brand-strip-link brand-strip-item flex min-h-11 items-center"
                 aria-label={`عرض سيارات ${brand}`}
                 variants={brandItem}
               >
-                {brand}
+                <BrandLogo brand={brand} />
               </motion.a>
             ))}
           </SectionReveal>
@@ -429,9 +429,9 @@ export default function HomePage({ navigate, onOpenCar }) {
 
                 <div className="loc-actions">
                   <a
-                    href={mapsLink}
+                    href={MAPS_SHORT_LINK}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className="btn btn-primary loc-btn"
                   >
                     <Navigation size={16} />

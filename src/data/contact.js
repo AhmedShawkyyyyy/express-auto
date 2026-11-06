@@ -37,9 +37,11 @@ export const whatsappLink = (
   return `https://wa.me/${international}?text=${encodeURIComponent(message)}`
 }
 
-export const mapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-  ADDRESS,
-)}`
+export const COORDS = { lat: 30.1730633, lng: 31.5350207 }
+
+export const MAPS_SHORT_LINK = 'https://maps.app.goo.gl/TxFecry4LGnWUP6c8'
+
+export const mapEmbedUrl = `https://www.google.com/maps?q=${COORDS.lat},${COORDS.lng}&z=16&output=embed&hl=ar`
 
 export const carInquiryMessage = (car) =>
   `مرحبًا إكسبريس أوتو، أرغب في معرفة المزيد عن ${car.name} موديل ${car.year} وسعرها وتوافرها.`

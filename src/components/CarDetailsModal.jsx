@@ -60,7 +60,7 @@ export default function CarDetailsModal({ car, onClose }) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.45 }}
       onClick={onClose}
       role="presentation"
     >
@@ -81,7 +81,7 @@ export default function CarDetailsModal({ car, onClose }) {
           initial={{ opacity: 0, y: 35, scale: 0.97 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 20, scale: 0.98 }}
-          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
           onClick={(event) => event.stopPropagation()}
           className="relative w-full max-w-6xl overflow-hidden rounded-[26px] border border-white/10 bg-[#080808] shadow-[0_50px_140px_-30px_rgba(0,0,0,0.95)]"
         >
@@ -98,7 +98,7 @@ export default function CarDetailsModal({ car, onClose }) {
                     initial={{ opacity: 0, scale: 1.035 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
                     className="absolute inset-0 h-full w-full object-cover"
                   />
                 </AnimatePresence>
