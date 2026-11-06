@@ -25,6 +25,24 @@ export default function Navbar({ page, navigate }) {
     return () => window.removeEventListener('hashchange', closeMenu)
   }, [])
 
+  useEffect(() => {
+    if (!open) return
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') setOpen(false)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [open])
+
+  useEffect(() => {
+    const desktop = window.matchMedia('(min-width: 1024px)')
+    const onChange = (event) => {
+      if (event.matches) setOpen(false)
+    }
+    desktop.addEventListener('change', onChange)
+    return () => desktop.removeEventListener('change', onChange)
+  }, [])
+
   const go = (id) => {
     setOpen(false)
     navigate(id)
@@ -70,41 +88,74 @@ export default function Navbar({ page, navigate }) {
               className="chrome-menu-button"
               aria-label={open ? 'إغلاق القائمة' : 'فتح القائمة'}
               aria-expanded={open}
+              aria-controls="chrome-mobile-drawer"
             >
               {open ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
         </div>
-
-        <AnimatePresence>
-          {open && (
-            <motion.div
-              initial={reduceMotion ? false : { opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              className="chrome-mobile-menu"
-            >
-              <nav className="chrome-mobile-nav" aria-label="قائمة الجوال">
-                {links.map((link) => {
-                  const active = page === link.id
-                  return (
-                    <button
-                      key={link.id}
-                      type="button"
-                      onClick={() => go(link.id)}
-                      aria-current={active ? 'page' : undefined}
-                      className={`chrome-mobile-link ${active ? 'is-active' : ''}`}
-                    >
-                      <span>{link.label}</span>
-                    </button>
-                  )
-                })}
-              </nav>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </header>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            key="chrome-drawer-backdrop"
+            initial={reduceMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: reduceMotion ? 0 : 0.25 }}
+            className="chrome-drawer-backdrop"
+            onClick={() => setOpen(false)}
+            aria-hidden="true"
+          />
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {open && (
+          <motion.aside
+            key="chrome-drawer"
+            id="chrome-mobile-drawer"
+            role="dialog"
+            aria-modal="true"
+            aria-label="قائمة التنقل"
+            initial={reduceMotion ? false : { x: '-100%' }}
+            animate={{ x: 0 }}
+            exit={reduceMotion ? { opacity: 0 } : { x: '-100%' }}
+            transition={{ duration: reduceMotion ? 0 : 0.4, ease: [0.16, 1, 0.3, 1] }}
+            className="chrome-drawer"
+          >
+            <div className="chrome-drawer__head">
+              <span className="chrome-drawer__title">القائمة</span>
+              <button
+                type="button"
+                onClick={() => setOpen(false)}
+                className="chrome-drawer__close"
+                aria-label="إغلاق القائمة"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            <nav className="chrome-drawer__nav" aria-label="قائمة الجوال">
+              {links.map((link) => {
+                const active = page === link.id
+                return (
+                  <button
+                    key={link.id}
+                    type="button"
+                    onClick={() => go(link.id)}
+                    aria-current={active ? 'page' : undefined}
+                    className={`chrome-drawer__link ${active ? 'is-active' : ''}`}
+                  >
+                    <span>{link.label}</span>
+                  </button>
+                )
+              })}
+            </nav>
+          </motion.aside>
+        )}
+      </AnimatePresence>
 
       <MobileActionBar />
     </>

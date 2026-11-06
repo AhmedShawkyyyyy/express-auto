@@ -145,27 +145,68 @@
   }
 }
 
-/* Mobile navigation panel: solid, no blur or transparency. */
-.chrome-mobile-menu {
-  position: absolute;
-  inset-inline: 0;
-  top: 100%;
-  height: calc(100svh - 76px);
+/* Animated mobile side drawer */
+.chrome-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 55;
+  background: rgba(0, 0, 0, 0.68);
+}
+
+.chrome-drawer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 60;
+  width: min(340px, 86vw);
+  max-height: 100svh;
   overflow-y: auto;
   background: #0b0b0c;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 32px var(--gutter) 40px;
+  border-inline-end: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 16px 20px calc(24px + env(safe-area-inset-bottom));
 }
 
-.chrome-mobile-nav {
+.chrome-drawer__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 44px;
+  margin-bottom: 16px;
+}
+
+.chrome-drawer__title {
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.chrome-drawer__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: border-color 200ms ease, background-color 200ms ease;
+}
+
+.chrome-drawer__close:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.chrome-drawer__nav {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 32rem;
-  margin-inline: auto;
 }
 
-.chrome-mobile-link {
+.chrome-drawer__link {
   position: relative;
   display: flex;
   align-items: center;
@@ -184,12 +225,12 @@
   transition: color 200ms ease;
 }
 
-.chrome-mobile-link > span {
+.chrome-drawer__link > span {
   position: relative;
   display: inline-block;
 }
 
-.chrome-mobile-link > span::after {
+.chrome-drawer__link > span::after {
   content: "";
   position: absolute;
   inset-inline: 0;
@@ -202,21 +243,29 @@
   transition: opacity 200ms ease, transform 200ms ease;
 }
 
-.chrome-mobile-link:hover,
-.chrome-mobile-link.is-active {
+.chrome-drawer__link:hover,
+.chrome-drawer__link.is-active {
   color: var(--text-primary);
 }
 
-.chrome-mobile-link.is-active > span::after {
+.chrome-drawer__link.is-active > span::after {
   opacity: 1;
   transform: scaleX(1);
 }
 
-@media (max-width: 768px) {
-  .chrome-mobile-menu {
-    padding-bottom: calc(64px + env(safe-area-inset-bottom) + 24px);
-  }
+.chrome-drawer :focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+}
 
+@media (min-width: 1024px) {
+  .chrome-drawer,
+  .chrome-drawer-backdrop {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
   /* Keep the fixed action bar from covering page/footer content. */
   body {
     padding-bottom: calc(64px + env(safe-area-inset-bottom));
