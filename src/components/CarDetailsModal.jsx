@@ -32,7 +32,7 @@ const specItems = [
   { key: 'acceleration', label: '0–100 كم/س', icon: Zap },
 ]
 
-export default function CarDetailsModal({ car, onClose, onBook }) {
+export default function CarDetailsModal({ car, onClose }) {
   const [activeImage, setActiveImage] = useState(0)
 
   useEffect(() => {
@@ -287,15 +287,6 @@ export default function CarDetailsModal({ car, onClose, onBook }) {
                 </a>
               </div>
 
-              {onBook && (
-                <button
-                  type="button"
-                  onClick={onBook}
-                  className="mt-2.5 w-full rounded-full py-2.5 text-[11px] font-semibold text-white/35 transition-colors hover:text-brand"
-                >
-                  أو احجز موعد تجربة قيادة ←
-                </button>
-              )}
             </div>
           </div>
         </motion.div>

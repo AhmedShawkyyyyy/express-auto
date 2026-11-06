@@ -1,7 +1,5 @@
 import { motion } from 'framer-motion'
 import {
-  ArrowUpLeft,
-  CalendarDays,
   MapPin,
   MessageCircle,
   Navigation,
@@ -20,10 +18,11 @@ import {
   telLink,
   whatsappLink,
 } from '../data/contact'
+import { siteConfig } from '../data/siteConfig'
 
 const advisorMessage = 'مرحبًا إكسبريس أوتو، أرغب في التحدث مع مستشار مبيعات.'
 
-export default function ContactPage({ navigate, onBook }) {
+export default function ContactPage({ navigate }) {
   return (
     <>
       <section className="relative overflow-hidden border-b border-white/[0.07] bg-black pb-16 pt-36 sm:pb-20 sm:pt-44">
@@ -57,8 +56,8 @@ export default function ContactPage({ navigate, onBook }) {
                 <span className="glow-yellow text-brand">تفصلك عن سيارتك.</span>
               </h1>
               <p className="mt-6 max-w-xl text-sm leading-8 text-white/45 sm:text-base">
-                فريق من المستشارين المتخصصين جاهز لمساعدتك في اختيار السيارة،
-                معرفة المواصفات، وحجز تجربة القيادة. تواصل بالطريقة التي تناسبك.
+                فريق من المستشارين المتخصصين جاهز لمساعدتك في اختيار السيارة
+                ومعرفة المواصفات. تواصل بالطريقة التي تناسبك.
               </p>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -97,10 +96,12 @@ export default function ContactPage({ navigate, onBook }) {
                     <Navigation size={12} />
                     الاتجاهات
                   </a>
-                  <span className="flex items-center gap-1.5 text-[10px] text-white/25">
-                    <span className="h-1.5 w-1.5 rounded-full bg-brand" />
-                    نستقبلكم طوال الأسبوع
-                  </span>
+                  {siteConfig.workingHours && (
+                    <span className="flex items-center gap-1.5 text-[10px] text-white/25">
+                      <span className="h-1.5 w-1.5 rounded-full bg-brand" />
+                      {siteConfig.workingHours}
+                    </span>
+                  )}
                 </div>
               </div>
             </Reveal>
@@ -109,7 +110,7 @@ export default function ContactPage({ navigate, onBook }) {
       </section>
 
       <section className="border-b border-white/[0.07] bg-[#050505]">
-        <div className="container-lux grid gap-px overflow-hidden py-0 sm:grid-cols-3">
+        <div className="container-lux grid gap-px overflow-hidden py-0 sm:grid-cols-2">
           <Reveal className="flex items-center gap-4 border-b border-white/[0.07] py-7 sm:border-b-0 sm:border-l sm:px-6 sm:last:border-l-0">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 text-brand">
               <PhoneCall size={16} />
@@ -126,7 +127,7 @@ export default function ContactPage({ navigate, onBook }) {
             </div>
           </Reveal>
 
-          <Reveal delay={0.06} className="flex items-center gap-4 border-b border-white/[0.07] py-7 sm:border-b-0 sm:border-l sm:px-6">
+          <Reveal delay={0.06} className="flex items-center gap-4 py-7 sm:px-6">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 text-brand">
               <MessageCircle size={16} />
             </span>
@@ -143,22 +144,6 @@ export default function ContactPage({ navigate, onBook }) {
             </div>
           </Reveal>
 
-          <Reveal delay={0.12} className="flex items-center gap-4 py-7 sm:px-6">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 text-brand">
-              <CalendarDays size={16} />
-            </span>
-            <div>
-              <span className="block text-[9px] text-white/30">استشارة خاصة</span>
-              <button
-                type="button"
-                onClick={onBook}
-                className="mt-1 flex items-center gap-1.5 text-sm font-bold text-white transition-colors hover:text-brand"
-              >
-                احجز موعدك
-                <ArrowUpLeft size={12} />
-              </button>
-            </div>
-          </Reveal>
         </div>
       </section>
 
@@ -298,27 +283,6 @@ export default function ContactPage({ navigate, onBook }) {
         </div>
       </section>
 
-      <section className="relative overflow-hidden bg-black py-16 sm:py-20">
-        <div className="pointer-events-none absolute left-1/2 top-0 h-72 w-[620px] -translate-x-1/2 rounded-full bg-brand/[0.04] blur-[120px]" />
-        <div className="container-lux relative">
-          <Reveal>
-            <div className="flex flex-col items-center justify-between gap-6 rounded-[24px] border border-brand/15 bg-[linear-gradient(110deg,rgba(242,227,10,0.075),rgba(10,10,10,0.6)_55%)] p-7 text-center sm:flex-row sm:p-9 sm:text-right">
-              <div>
-                <h2 className="text-2xl font-extrabold text-white sm:text-3xl">
-                  تفضل بزيارة المعرض؟
-                </h2>
-                <p className="mt-2 text-sm text-white/40">
-                  احجز استشارتك الشخصية قبل الزيارة، ونجهز لك تجربة مخصصة.
-                </p>
-              </div>
-              <button type="button" onClick={onBook} className="btn btn-primary shrink-0 !px-7">
-                احجز استشارتك
-                <ArrowUpLeft size={16} />
-              </button>
-            </div>
-          </Reveal>
-        </div>
-      </section>
     </>
   )
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
-import { ArrowLeft, Menu, PhoneCall, X } from 'lucide-react'
+import { Menu, PhoneCall, X } from 'lucide-react'
 import Logo from './Logo'
 import { PRIMARY_PHONE, formatPhone, telLink } from '../data/contact'
 import { useScrollLock } from '../lib/scrollLock'
@@ -11,21 +11,11 @@ const links = [
   { id: 'contact', label: 'تواصل معنا' },
 ]
 
-export default function Navbar({ page, navigate, onBook }) {
+export default function Navbar({ page, navigate }) {
   const [open, setOpen] = useState(false)
-  const [pastHero, setPastHero] = useState(
-    () => window.scrollY > window.innerHeight * 0.7,
-  )
   const reduceMotion = useReducedMotion()
-  const showCta = page !== 'home' || pastHero
 
   useScrollLock(open)
-
-  useEffect(() => {
-    const onScroll = () => setPastHero(window.scrollY > window.innerHeight * 0.7)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
 
   useEffect(() => {
     const closeMenu = () => setOpen(false)
@@ -75,17 +65,6 @@ export default function Navbar({ page, navigate, onBook }) {
             </span>
           </a>
 
-          {showCta && (
-            <button
-              type="button"
-              onClick={onBook}
-              className="btn btn-primary hidden sm:inline-flex"
-            >
-              احجز تجربة قيادة
-              <ArrowLeft size={16} />
-            </button>
-          )}
-
           <button
             type="button"
             onClick={() => setOpen((value) => !value)}
@@ -122,18 +101,6 @@ export default function Navbar({ page, navigate, onBook }) {
                   </button>
                 ))}
               </div>
-
-              <button
-                type="button"
-                onClick={() => {
-                  setOpen(false)
-                  onBook()
-                }}
-                className="btn btn-primary mt-8 w-full"
-              >
-                احجز تجربة قيادة
-                <ArrowLeft size={17} />
-              </button>
 
               <a
                 href={telLink(PRIMARY_PHONE)}

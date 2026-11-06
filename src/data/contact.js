@@ -31,6 +31,8 @@ export const whatsappLink = (
   phone = PRIMARY_PHONE,
   message = 'مرحبًا إكسبريس أوتو، أرغب في الاستفسار عن السيارات المتاحة.',
 ) => {
+  if (!phone) return null
+
   const international = phone.replace(/\D/g, '').replace(/^0/, '20')
   return `https://wa.me/${international}?text=${encodeURIComponent(message)}`
 }

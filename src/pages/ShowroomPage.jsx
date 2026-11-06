@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import {
-  ArrowUpLeft,
   MessageCircle,
   SlidersHorizontal,
   Sparkles,
@@ -12,7 +11,7 @@ import Reveal from '../components/Reveal'
 import { brands, cars, categories } from '../data/cars'
 import { whatsappLink } from '../data/contact'
 
-export default function ShowroomPage({ onOpenCar, onBook, navigate }) {
+export default function ShowroomPage({ onOpenCar, navigate }) {
   const [activeBrand, setActiveBrand] = useState(() => {
     const savedBrand = window.sessionStorage.getItem('express:brand')
     return brands.includes(savedBrand) ? savedBrand : 'الكل'
@@ -238,14 +237,6 @@ export default function ShowroomPage({ onOpenCar, onBook, navigate }) {
                   <MessageCircle size={15} />
                   اسأل مستشارًا
                 </a>
-                <button
-                  type="button"
-                  onClick={onBook}
-                  className="btn btn-secondary !px-5 text-[11px]"
-                >
-                  احجز استشارة
-                  <ArrowUpLeft size={14} />
-                </button>
               </div>
             </div>
           </Reveal>

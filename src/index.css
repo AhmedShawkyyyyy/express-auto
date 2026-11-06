@@ -28,10 +28,11 @@
   --brand: #f2e30a;
   --container: 1320px;
   --gutter: 24px;
-  --section-y: clamp(64px, 9vw, 120px);
+  --section-y: 64px;
+  --map-h: 440px;
   --radius-card: 16px;
   --radius-button: 12px;
-  --type-h1: clamp(40px, 5vw, 72px);
+  --type-h1: clamp(26px, 8.2vw, 32px);
   --type-h2: clamp(28px, 3vw, 44px);
   --type-body: 17px;
   --line-body: 1.8;
@@ -39,6 +40,18 @@
   --type-card: 15px;
   --type-caption: 13px;
   --type-small: 14px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --type-h1: clamp(40px, 4.5vw, 60px);
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --section-y: clamp(96px, 8vw, 120px);
+  }
 }
 
 * {
@@ -161,6 +174,301 @@ img {
 .home-small {
   font-size: var(--type-small);
   line-height: 1.6;
+}
+
+/* ------------------------------------------------------------------
+   Home page: non-hero sections only.
+   These classes are intentionally new and scoped so the hero and all
+   shared utility classes/tokens above stay pixel-identical.
+------------------------------------------------------------------ */
+.home-section {
+  padding-block: 64px;
+}
+
+@media (min-width: 1024px) {
+  .home-section {
+    padding-block: 96px;
+  }
+}
+
+.home-section-title {
+  font-size: var(--type-h2);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.home-section-lede {
+  max-width: 52ch;
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.brand-strip {
+  padding-block: 28px;
+}
+
+.brand-strip-link {
+  color: var(--text-secondary);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  transition: color 200ms ease;
+}
+
+.brand-strip-link:hover,
+.brand-strip-link:focus-visible {
+  color: var(--text-primary);
+}
+
+/* Why us: 5/12 sticky heading + 7/12 stacked rows */
+.why-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+
+.why-head {
+  align-self: start;
+}
+
+.why-list {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 1024px) {
+  .why-layout {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 48px;
+    align-items: start;
+  }
+
+  .why-head {
+    grid-column: span 5;
+    position: sticky;
+    top: 120px;
+  }
+
+  .why-list {
+    grid-column: span 7;
+  }
+}
+
+.why-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding-block: 28px;
+}
+
+.why-row + .why-row {
+  border-top: 1px solid var(--border-color);
+}
+
+.why-icon {
+  display: block;
+  flex: 0 0 auto;
+  color: var(--text-primary);
+}
+
+.why-content {
+  min-width: 0;
+}
+
+.why-title {
+  color: var(--text-primary);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.why-desc {
+  max-width: 56ch;
+  margin-top: 8px;
+  color: var(--text-secondary);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* Cars */
+.cars-card-title {
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.cars-specs {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.cars-year {
+  color: var(--text-tertiary);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.cars-from {
+  color: var(--text-tertiary);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.cars-price {
+  color: var(--text-primary);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.cars-currency {
+  color: var(--text-secondary);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.cars-card:hover {
+  border-color: rgba(11, 11, 12, 0.28);
+}
+
+/* Location */
+.loc-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .loc-card {
+    min-height: 320px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .loc-card {
+    min-height: 380px;
+  }
+}
+
+.loc-rows {
+  width: 100%;
+}
+
+.loc-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding-block: 16px;
+}
+
+.loc-row:first-child {
+  padding-top: 0;
+}
+
+.loc-row:last-child {
+  padding-bottom: 0;
+}
+
+.loc-row + .loc-row {
+  border-top: 1px solid var(--border-color);
+}
+
+.loc-label {
+  color: var(--text-tertiary);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.loc-text {
+  color: var(--text-primary);
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.loc-note {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.loc-phone {
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.6;
+  transition: color 200ms ease;
+}
+
+.loc-phone:hover,
+.loc-phone:focus-visible {
+  color: var(--text-secondary);
+}
+
+.loc-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+@media (min-width: 640px) {
+  .loc-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .loc-actions {
+    grid-template-columns: 1fr;
+  }
+}
+
+.loc-map {
+  height: 320px;
+}
+
+@media (min-width: 1024px) {
+  .loc-map {
+    height: auto;
+    min-height: 380px;
+  }
+}
+
+.loc-map-frame {
+  filter: saturate(0.85);
+}
+
+.site-footer-heading {
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.site-footer-link {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.6;
+  transition: color 200ms ease;
+}
+
+.site-footer-link:hover,
+.site-footer-link:focus-visible {
+  color: var(--text-primary);
+}
+
+.site-footer-text {
+  color: var(--text-secondary);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.site-footer-copy {
+  color: var(--text-tertiary);
+  font-size: 13px;
 }
 
 .phone-number,
@@ -286,6 +594,11 @@ img {
 .btn-dark:hover {
   background: var(--surface-2);
   border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* The location buttons share the base .btn size; only the width is scoped. */
+.loc-btn {
+  width: 100%;
 }
 
 .icon-button {
@@ -447,6 +760,58 @@ img {
   text-orientation: mixed;
   letter-spacing: 0.34em;
 }
+}
+
+/* ------------------------------------------------------------------
+   Light theme scope: only HomePage content after the dark brand strip.
+   Navbar, hero and footer stay outside this wrapper.
+------------------------------------------------------------------ */
+/* Sticky needs a non-scrolling overflow chain. `clip` keeps the
+   horizontal crop without creating a scroll container. Home only. */
+body:has(.theme-light) {
+  overflow-x: clip;
+}
+
+#root > div:has(.theme-light) {
+  overflow-x: clip;
+}
+
+.theme-light {
+  color-scheme: light;
+  --page-bg: #f5f4f0;
+  --surface: #ffffff;
+  --surface-2: #eceae4;
+  --border-color: rgba(11, 11, 12, 0.10);
+  --text-primary: #0b0b0c;
+  --text-secondary: #44444a;
+  --text-tertiary: #6b6b72;
+  --brand: #f2e30a;
+  --color-night: #f5f4f0;
+  --color-surface: #ffffff;
+  --color-surface-2: #eceae4;
+  --color-line: rgba(11, 11, 12, 0.10);
+  --color-ivory: #0b0b0c;
+  --color-muted: #44444a;
+  --color-dim: #6b6b72;
+  --color-brand: #f2e30a;
+  background-color: #f5f4f0;
+  color: #0b0b0c;
+}
+
+.theme-light :focus-visible {
+  outline: 2px solid #0b0b0c;
+  outline-offset: 2px;
+}
+
+.theme-light .btn-secondary {
+  color: #0b0b0c;
+  background: transparent;
+  border-color: rgba(11, 11, 12, 0.2);
+}
+
+.theme-light .btn-secondary:hover {
+  background: transparent;
+  border-color: #0b0b0c;
 }
 
 @keyframes marquee {

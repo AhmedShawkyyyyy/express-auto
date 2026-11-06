@@ -4,7 +4,6 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import FloatingContact from './components/FloatingContact'
 import CarDetailsModal from './components/CarDetailsModal'
-import ConsultationModal from './components/ConsultationModal'
 import HomePage from './pages/HomePage'
 import ShowroomPage from './pages/ShowroomPage'
 import ContactPage from './pages/ContactPage'
@@ -26,7 +25,6 @@ function readPage() {
 export default function App() {
   const [page, setPage] = useState(readPage)
   const [selectedCar, setSelectedCar] = useState(null)
-  const [consultationOpen, setConsultationOpen] = useState(false)
   const reduceMotion = useReducedMotion()
 
   useEffect(() => {
@@ -47,7 +45,7 @@ export default function App() {
     document.title = pageTitles[page] || pageTitles.home
   }, [page])
 
-  const overlayOpen = Boolean(selectedCar) || consultationOpen
+  const overlayOpen = Boolean(selectedCar)
 
   useScrollLock(overlayOpen)
 
@@ -67,15 +65,10 @@ export default function App() {
 
   const openCar = useCallback((car) => setSelectedCar(car), [])
   const closeCar = useCallback(() => setSelectedCar(null), [])
-  const openConsultation = useCallback(() => {
-    setSelectedCar(null)
-    setConsultationOpen(true)
-  }, [])
-  const closeConsultation = useCallback(() => setConsultationOpen(false), [])
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-black">
-      <Navbar page={page} navigate={navigate} onBook={openConsultation} />
+      <Navbar page={page} navigate={navigate} />
 
       <AnimatePresence mode="wait" initial={false}>
         <motion.main
@@ -86,26 +79,16 @@ export default function App() {
           transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
         >
           {page === 'home' && (
-            <HomePage
-              navigate={navigate}
-              onOpenCar={openCar}
-              onBook={openConsultation}
-            />
+            <HomePage navigate={navigate} onOpenCar={openCar} />
           )}
           {page === 'showroom' && (
-            <ShowroomPage
-              navigate={navigate}
-              onOpenCar={openCar}
-              onBook={openConsultation}
-            />
+            <ShowroomPage navigate={navigate} onOpenCar={openCar} />
           )}
-          {page === 'contact' && (
-            <ContactPage navigate={navigate} onBook={openConsultation} />
-          )}
+          {page === 'contact' && <ContactPage navigate={navigate} />}
         </motion.main>
       </AnimatePresence>
 
-      <Footer navigate={navigate} onBook={openConsultation} />
+      <Footer navigate={navigate} />
       <FloatingContact />
 
       <AnimatePresence>
@@ -114,16 +97,6 @@ export default function App() {
             key={selectedCar.id}
             car={selectedCar}
             onClose={closeCar}
-            onBook={openConsultation}
-          />
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {consultationOpen && (
-          <ConsultationModal
-            key="consultation"
-            onClose={closeConsultation}
           />
         )}
       </AnimatePresence>
